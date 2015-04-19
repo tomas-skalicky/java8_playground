@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- "status" attribute helps to debug log4j2 configuration -->
+<Configuration status="info">
+
+	<Properties>
+		<Property name="fileBaseFolder">${sys:log4j2-with-bundle-properties.root}/../../logs/log4j-with-bundle-properties/${bundle:cz.skalicky.log4j2.withbundleproperties.log4j2:appContextName}
+		</Property>
+	</Properties>
+
+	<!-- see http://logging.apache.org/log4j/2.x/manual/appenders.html -->
+	<Appenders>
+		<Console name="STDOUT" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+		</Console>
+
+		<!-- RollingFileAppender with both the time and size based triggering policies. The appender will create 
+			up to 20 archives on the same day (1-20) that are stored in a directory based on the current year and 
+			month, will compress each archive using gzip and will roll every 24 hours when the hour is divisible 
+			by 24. -->
+		<RollingFile name="rollingFile" fileName="${fileBaseFolder}/skalicky.log"
+			filePattern="${fileBaseFolder}/$${date:yyyy-MM}/skalicky--%d{yyyy-MM-dd-HH}--%i.log.gz">
+			<PatternLayout pattern="%d{yyyy-mm-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="24" modulate="true" />
+				<SizeBasedTriggeringPolicy size="1 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="20" />
+		</RollingFile>
+	</Appenders>
+
+	<Loggers>
+		<Logger name="cz.skalicky.log4j2.withbundleproperties" level="DEBUG" additivity="false">
+			<AppenderRef ref="STDOUT" />
+			<AppenderRef ref="rollingFile" />
+		</Logger>
+
+		<Root level="DEBUG">
+			<AppenderRef ref="STDOUT" />
+			<AppenderRef ref="rollingFile" />
+		</Root>
+	</Loggers>
+
+</Configuration>

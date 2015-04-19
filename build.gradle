@@ -1,0 +1,45 @@
+// Logging
+logging.captureStandardOutput LogLevel.WARN
+println 'A message which is logged at WARN level'
+
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+version = '0.0.1-SHAPSHOT'
+
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+		classpath 'com.github.ben-manes:gradle-versions-plugin:0.8'
+	}
+}
+
+
+apply plugin: 'java'
+apply plugin: 'com.github.ben-manes.versions'
+
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+	compile 'org.apache.commons:commons-lang3:3.3.2'
+	compile 'org.springframework:spring-core:4.1.6.RELEASE'
+}
+
+
+task wrapper(type: Wrapper) {
+
+    // The distribution will be unpacked to the $USER_HOME/.gradle/gradle/dists
+    archiveBase = Wrapper.PathBase.GRADLE_USER_HOME
+    archivePath = 'gradle/dists'
+    distributionUrl = 'https://services.gradle.org/distributions/gradle-2.3-all.zip'
+}

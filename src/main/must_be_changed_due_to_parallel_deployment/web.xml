@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web:web-app xmlns:web="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" 
+        version="3.1">
+
+	<web:context-param>
+		<web:param-name>webAppRootKey</web:param-name>
+		<web:param-value>log4j2-with-bundle-properties.root</web:param-value>
+	</web:context-param>
+
+	<web:context-param>
+		<web:param-name>isLog4jAutoInitializationDisabled</web:param-name>
+		<web:param-value>true</web:param-value>
+	</web:context-param>
+
+	<!-- see http://logging.apache.org/log4j/2.x/manual/webapp.html -->
+	<web:context-param>
+		<web:param-name>log4jConfiguration</web:param-name>
+		<web:param-value>classpath:cz/skalicky/log4j2/withbundleproperties/log4j2-skalicky.xml</web:param-value>
+	</web:context-param>
+
+	<!-- NOTE: This listener must be registered before the log4j one!!! -->
+	<web:listener>
+		<web:listener-class>org.springframework.web.util.WebAppRootListener</web:listener-class>
+	</web:listener>
+
+	<web:listener>
+		<web:listener-class>org.apache.logging.log4j.web.Log4jServletContextListener</web:listener-class>
+	</web:listener>
+
+	<!-- Added because of the setup of isLog4jAutoInitializationDisabled to true -->
+	<!-- see http://logging.apache.org/log4j/2.x/manual/webapp.html -->
+	<web:filter>
+		<web:filter-name>log4jServletFilter</web:filter-name>
+		<web:filter-class>org.apache.logging.log4j.web.Log4jServletFilter</web:filter-class>
+	</web:filter>
+	<web:filter-mapping>
+		<web:filter-name>log4jServletFilter</web:filter-name>
+		<web:url-pattern>/*</web:url-pattern>
+		<web:dispatcher>REQUEST</web:dispatcher>
+		<web:dispatcher>FORWARD</web:dispatcher>
+		<web:dispatcher>INCLUDE</web:dispatcher>
+		<web:dispatcher>ERROR</web:dispatcher>
+		<web:dispatcher>ASYNC</web:dispatcher>
+		<!-- Servlet 3.0 w/ disabled auto-initialization only; not supported in 2.5 -->
+	</web:filter-mapping>
+
+</web:web-app>
