@@ -9,12 +9,14 @@ apply from: 'libraries.gradle'
 version = '0.0.1-SHAPSHOT'
 
 buildscript {
+    apply from: 'libraries.gradle'
+    
     repositories {
         mavenCentral()
         jcenter()
     }
     dependencies {
-        classpath 'com.github.ben-manes:gradle-versions-plugin:0.11.3'
+        classpath libraries.gradle_versions_plugin
     }
 }
 
