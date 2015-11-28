@@ -32,7 +32,8 @@ repositories {
 
 dependencies {
 	compile 'org.apache.commons:commons-lang3:3.4'
-	compile 'org.springframework:spring-core:4.2.2.RELEASE'
+	compile 'org.springframework:spring-core:4.2.3.RELEASE'
+	compile 'org.hamcrest:hamcrest-all:1.3'
 }
 
 

@@ -11,7 +11,7 @@ public class FilesPlayground {
 
     public static void main(String[] args) {
 
-        final String BASE_PATH = "/home/tom/Documents/Development/Java/SourceFiles/java8/java8_playground/fooDir";
+        final String BASE_PATH = "/home/tom/Documents/development/Java/SourceFiles/java8/java8_playground/fooDir";
         Path sPath = Paths.get(BASE_PATH + File.separator + "sourceDir" + File.separator + "testFile.txt");
         Path dPath = Paths.get(BASE_PATH + File.separator + "targetDir" + File.separator + "barDir");
         try {
