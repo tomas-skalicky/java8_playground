@@ -10,7 +10,7 @@ version = '0.0.1-SHAPSHOT'
 
 buildscript {
     apply from: 'libraries.gradle'
-    
+
     repositories {
         mavenCentral()
         jcenter()
@@ -50,13 +50,17 @@ allprojects {
                 }
             }
         }
+
+        // Excludes JUnit from all dependencies and from all scopes.
+        all*.exclude group: 'junit', module: 'junit'
     }
 }
 
 dependencies {
-    compile libraries.commons_lang3
-    compile libraries.spring_core
-    compile libraries.hamcrest_all
+    testCompile libraries.commons_lang3
+    testCompile libraries.spring_core
+    testCompile libraries.hamcrest_all
+    testCompile libraries.testng
 }
 
 

@@ -11,7 +11,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
-public class MethodHandlesLookupDueToDefaultMethod {
+import org.testng.annotations.Test;
+
+public class MethodHandlesLookupDueToDefaultMethodTest {
 
     public static interface MyInterface {
 
@@ -32,8 +34,8 @@ public class MethodHandlesLookupDueToDefaultMethod {
             myinterfaceClass = interfaceClass;
 
             try {
-                final Constructor<Lookup> classConstructor = MethodHandles.Lookup.class.getDeclaredConstructor(Class.class,
-                        int.class);
+                final Constructor<Lookup> classConstructor = MethodHandles.Lookup.class
+                        .getDeclaredConstructor(Class.class, int.class);
                 classConstructor.setAccessible(true);
                 myInterfaceInstance = classConstructor.newInstance(interfaceClass,
                         MethodHandles.Lookup.PRIVATE);
@@ -49,8 +51,7 @@ public class MethodHandlesLookupDueToDefaultMethod {
 
                 // @formatter:off
                 return "interception1 " + myInterfaceInstance.unreflectSpecial(method, myinterfaceClass)
-                        .bindTo(proxy)
-                        .invokeWithArguments(args);
+                        .bindTo(proxy).invokeWithArguments(args);
                 // @formatter:on
             } else {
                 return "interception2 MESSAGE";
@@ -58,21 +59,28 @@ public class MethodHandlesLookupDueToDefaultMethod {
         }
     }
 
-    public static void main(String[] args) {
-
-        MyInterface proxyObject = createJavaProxy();
-
-        assertThat(proxyObject.getMessage(), is("interception2 MESSAGE"));
-        assertThat(proxyObject.dump(), is("interception1 dump=interception2 MESSAGE"));
-        System.out.println("SUCCESS");
-    }
-
-    private static MyInterface createJavaProxy() {
+    private MyInterface createJavaProxy() {
 
         Class<?> interfaceClass = MyInterface.class;
 
         return (MyInterface) Proxy.newProxyInstance(interfaceClass.getClassLoader(),
                 new Class<?>[] { interfaceClass }, new MyInterfaceInvocationHandler(interfaceClass));
+    }
+
+    @Test
+    public void testOrdinalInterfaceMethod() {
+
+        final MyInterface proxyObject = createJavaProxy();
+
+        assertThat(proxyObject.getMessage(), is("interception2 MESSAGE"));
+    }
+
+    @Test
+    public void testDefaultMethod() {
+
+        final MyInterface proxyObject = createJavaProxy();
+
+        assertThat(proxyObject.dump(), is("interception1 dump=interception2 MESSAGE"));
     }
 
 }
