@@ -63,6 +63,25 @@ dependencies {
     testCompile libraries.testng
 }
 
+test {
+    // Enables TestNG support (default is JUnit)
+    useTestNG()
+
+    // Listens to events in the test execution lifecycle
+    beforeTest { testDescriptor ->
+        logger.lifecycle("Test ${testDescriptor} is running...")
+    }
+
+    // Listens to standard out and standard error of the test JVM(s)
+    onOutput { testDescriptor, testOutputEvent ->
+        logger.lifecycle("Test ${testDescriptor} produced standard out/err: ${testOutputEvent.message}")
+    }
+
+    afterTest { testDescriptor, testResult ->
+        logger.lifecycle("Test ${testDescriptor}: result was ${testResult}.")
+    }
+}
+
 
 task wrapper(type: Wrapper) {
 

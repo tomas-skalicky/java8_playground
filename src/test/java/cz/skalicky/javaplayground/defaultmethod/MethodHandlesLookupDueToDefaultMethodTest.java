@@ -20,7 +20,9 @@ public class MethodHandlesLookupDueToDefaultMethodTest {
         String getMessage();
 
         default String dump() {
-            return "dump=" + getMessage();
+            final String dump = "dump=" + getMessage();
+            System.out.println(dump);
+            return dump;
         }
     }
 
