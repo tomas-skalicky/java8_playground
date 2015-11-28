@@ -4,6 +4,7 @@ println 'A message which is logged at WARN level'
 
 apply plugin: 'eclipse'
 apply plugin: 'idea'
+apply from: 'libraries.gradle'
 
 version = '0.0.1-SHAPSHOT'
 
@@ -51,9 +52,9 @@ allprojects {
 }
 
 dependencies {
-    compile 'org.apache.commons:commons-lang3:3.4'
-    compile 'org.springframework:spring-core:4.2.3.RELEASE'
-    compile 'org.hamcrest:hamcrest-all:1.3'
+    compile libraries.commons_lang3
+    compile libraries.spring_core
+    compile libraries.hamcrest_all
 }
 
 

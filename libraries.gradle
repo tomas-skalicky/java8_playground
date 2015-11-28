@@ -1,0 +1,10 @@
+ext {
+    springVersion = '4.2.3.RELEASE'
+
+    libraries = [
+
+            hamcrest_all           : 'org.hamcrest:hamcrest-all:1.3',
+            spring_core            : "org.springframework:spring-core:${springVersion}",
+            commons_lang3          : 'org.apache.commons:commons-lang3:3.4',
+    ]
+}
