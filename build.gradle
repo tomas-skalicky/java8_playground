@@ -68,6 +68,9 @@ test {
     useTestNG()
     
     testLogging {
+        showExceptions = true
+        showStackTraces = true
+        showCauses = true
         exceptionFormat = 'full'
     }
 
